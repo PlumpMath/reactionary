@@ -2,6 +2,8 @@
 
 (def initial-db
   {:app-name "Reactionary"
-   :name "re-frame"
-   :time (js/Date.)
-   :time-color "#ccc"})
+   :counter 0
+   :current-time {:color "#ccc"
+                  :value (js/Date.)}
+   :todo {:items (sorted-map)
+          :showing :all}})

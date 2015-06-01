@@ -2,40 +2,17 @@
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require        [re-frame.core :refer [register-sub]]))
 
-;; (defn register-top-sub
-;;   [path]
-;;   (register-sub path (fn [db] (reaction (path @db)))))
 
-;; (mapv register-top-sub
-;;       [:app-name
-;;        :name
-;;        :time
-;;        :time-color])
+;; The :init-subs handler automatically registers subscriptions to all
+;; the top level keys in the database.  See handlers.cljs for details.
 
-;; (register :app-name)
 
-;; (register :name)
+(register-sub
+ :current-time-color
+ (fn [db]
+   (reaction (get-in @db [:current-time :color]))))
 
-;; (register :time)
-
-;; (register :time-color)
-
-;; (register-sub
-;;  :app-name
-;;  (fn [db]
-;;    (reaction (:app-name @db))))
-
-;; (register-sub
-;;  :name
-;;  (fn [db]
-;;    (reaction (:name @db))))
-
-;; (register-sub
-;;  :time
-;;  (fn [db]
-;;    (reaction (:time @db))))
-
-;; (register-sub
-;;  :time-color
-;;  (fn [db]
-;;    (reaction (:time-color @db))))
+(register-sub
+ :current-time-value
+ (fn [db]
+   (reaction (get-in @db [:current-time :value]))))

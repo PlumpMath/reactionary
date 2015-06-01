@@ -2,41 +2,56 @@
   (:require [re-com.core   :as rc]
             [re-frame.core :refer [dispatch subscribe]]))
 
-(defonce time-updater
+
+;; -- Timers -------------------------------------------------------------------
+
+
+(defonce update-counter
   (js/setInterval
-   #(dispatch [:set-time (js/Date.)])
+   #(dispatch [:update-counter])
+   (* 4 1000)))  ; every so often
+
+(defonce update-current-time-value
+  (js/setInterval
+   #(dispatch [:update-current-time-value])
    1000))  ; every second (1000 ms)
 
-(defn app-name-title []
+
+;; -- Content ------------------------------------------------------------------
+
+(defn app-name []
   (let [app-name (subscribe [:app-name])]
     (fn []
       [rc/title
        :label (str "Welcome to " @app-name)
        :level :level1])))
 
-(defn hello-title []
-  (let [name (subscribe [:name])]
+(defn counter []
+  (let [counter (subscribe [:counter])]
     (fn []
-      [rc/title
-       :label (str "Hello from " @name)
-       :level :level2])))
+      [rc/p "Every so often this value will change --> " (str @counter)])))
 
-(defn time-title []
-  (let [time       (subscribe [:time])
-        time-color (subscribe [:time-color])]
+(defn current-time []
+  (let [current-time-value (subscribe [:current-time-value])
+        current-time-color (subscribe [:current-time-color])]
     (fn []
-      (let [time-str (-> @time
+      (let [time-str (-> @current-time-value
                          .toTimeString
                          (clojure.string/split " ")
                          first)]
-        [rc/title
-         :label (str "According to my clock it is " time-str)
-         :level :level3]))))
+        [rc/p "According to my clock it is " time-str ".  "
+         "Time to do some todos."]))))
+
+(defn todo-items []
+  [rc/p "Nothing to do yet..."])
+
+;; -- Main App -----------------------------------------------------------------
 
 (defn app []
   (fn []
     [rc/v-box
      :height "100%"
-     :children [[app-name-title]
-                [hello-title]
-                [time-title]]]))
+     :children [[app-name]
+                [counter]
+                [current-time]
+                [todo-items]]]))
