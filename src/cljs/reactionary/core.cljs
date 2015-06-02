@@ -13,6 +13,7 @@
                   (.getElementById js/document "app")))
 
 (defn ^:export main []
-  (dispatch-sync [:init])
+  (dispatch-sync [:init-db])
   (dispatch-sync [:init-subs])
+  (dispatch-sync [:init-todo-items])
   (mount-root))

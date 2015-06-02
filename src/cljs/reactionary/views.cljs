@@ -43,7 +43,16 @@
          "Time to do some todos."]))))
 
 (defn todo-items []
-  [rc/p "Nothing to do yet..."])
+  (let [todo-items (subscribe [:todo-items])]
+    (fn []
+      [rc/p "Do these " (str (count @todo-items)) " things:"]
+;;       (for [todo-item @todo-items]
+;;         [rc/p "Something"])
+      )))
+;;     (fn []
+;;       (for [todo-item @todo-items]
+;;         [rc/p (:title todo-item)]))))
+
 
 ;; -- Main App -----------------------------------------------------------------
 

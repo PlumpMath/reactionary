@@ -16,3 +16,9 @@
  :current-time-value
  (fn [db]
    (reaction (get-in @db [:current-time :value]))))
+
+(register-sub
+ :todo-items
+ (fn [db]
+   (reaction (vals (:items (:todo @db))))))
+;   (reaction (--> (:todo @db) (:items) (vals)))))
