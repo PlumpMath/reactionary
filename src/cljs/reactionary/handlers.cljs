@@ -41,15 +41,14 @@
 ;; -- Helpers ------------------------------------------------------------------
 
 (defn- db-path->event-id
-  [prefix]
-  (fn [db-path]
-    (keyword (str prefix "-" (clojure.string/join "-" (map name db-path))))))
+  [prefix db-path]
+  (keyword (str prefix "-" (clojure.string/join "-" (map name db-path)))))
 
-(def make-insert-event-id (db-path->event-id "insert"))
+(def make-insert-event-id (partial db-path->event-id "insert"))
 
-(def make-update-event-id (db-path->event-id "update"))
+(def make-update-event-id (partial db-path->event-id "update"))
 
-(def make-delete-event-id (db-path->event-id "delete"))
+(def make-delete-event-id (partial db-path->event-id "delete"))
 
 
 (defn next-key-value
